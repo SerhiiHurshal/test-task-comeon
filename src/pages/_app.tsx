@@ -1,4 +1,4 @@
-import { AppProps, NextWebVitalsMetric } from 'next/app';
+import { AppProps } from 'next/app';
 import { Fragment } from 'react';
 
 import '../styles/globals.scss';
@@ -7,12 +7,6 @@ import '../stylesheets/styles.css';
 
 import Head from 'next/head';
 import Script from 'next/script';
-
-export function reportWebVitals(metric: NextWebVitalsMetric) {
-  if (process.env.mode === 'perfomance') {
-    console.log(metric);
-  }
-}
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
