@@ -1,26 +1,24 @@
+/* eslint-disable react/jsx-max-depth */
+import { checkIsUserLoggedin } from '@services';
 import Head from 'next/head';
 import Image from 'next/image';
-import { Fragment } from 'react';
+import { useRouter } from 'next/router';
+import { Fragment, useEffect } from 'react';
 
-import avatar from '../../public/images/avatar/eric.jpg';
-import gameIcon from '../../public/images/game-icon/deadoralive.jpg';
+import avatar from '@public/images/avatar/eric.jpg';
+import gameIcon from '@public/images/game-icon/deadoralive.jpg';
 
-export async function getServerSideProps() {
-  if (true) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
+const HomePage = () => {
+  const router = useRouter();
 
-  return {
-    props: {},
-  };
-}
+  useEffect(() => {
+    const user = checkIsUserLoggedin();
 
-export default function Home() {
+    if (!user) {
+      router.push('/login');
+    }
+  }, [router]);
+
   return (
     <Fragment>
       <Head>
@@ -99,4 +97,6 @@ export default function Home() {
       </div>
     </Fragment>
   );
-}
+};
+
+export default HomePage;

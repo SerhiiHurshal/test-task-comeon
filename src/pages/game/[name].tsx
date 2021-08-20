@@ -8,9 +8,9 @@ export async function getServerSideProps() {
     };
   }
 
-  return {
-    props: {},
-  };
+  // return {
+  //   props: {},
+  // };
 }
 
 const GamePage = () => (

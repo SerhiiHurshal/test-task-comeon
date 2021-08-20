@@ -29,7 +29,9 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@public/*": ["public/*"],
-      "@styles": ["src/styles/*"]
+      "@styles": ["src/styles/*"],
+      "@services": ["src/services/index.ts"],
+      "@models": ["src/models/index.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
