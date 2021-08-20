@@ -6,5 +6,6 @@ public
 next-env.d.ts
 package-lock.json
 next.config.js
-src/lib
+public/lib
 src/stylesheets
+mock

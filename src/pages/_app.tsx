@@ -5,16 +5,17 @@ import '../styles/globals.scss';
 import '../stylesheets/semantic.css';
 import '../stylesheets/styles.css';
 
-import Head from 'next/head';
 import Script from 'next/script';
+import { Layout } from '@components/Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // useLoginVerify();
   return (
     <Fragment>
-      <Head>
-        <Script src='../lib/comeon.game-1.0.min.js' />
-      </Head>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+      <Script src='/lib/comeon.game-1.0.min.js' />
     </Fragment>
   );
 }
