@@ -1,33 +1,38 @@
-export async function getServerSideProps() {
-  if (true) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
+import { useRouter } from 'next/router';
+import { Fragment, useEffect } from 'react';
 
-  // return {
-  //   props: {},
-  // };
-}
+const GamePage = () => {
+  const router = useRouter();
 
-const GamePage = () => (
-  <div className='ingame' style={{ display: 'none' }}>
-    <div className='grid ui centered'>
-      <div className='three wide column'>
-        <div className='ui right floated secondary button inverted'>
-          <i className='left chevron icon' />
-          Back
-        </div>
+  const { name } = router.query;
+
+  useEffect(() => {
+    window.comeon.game.launch(name);
+  });
+
+  const goBack = () => {
+    router.back();
+  };
+
+  return (
+    <Fragment>
+      <div className='grid ui centered'>
+        <header className='three wide column'>
+          <button
+            className='ui right floated secondary button inverted'
+            onClick={goBack}
+          >
+            <i className='left chevron icon' />
+            Back
+          </button>
+        </header>
+        <main className='ten wide column'>
+          <div id='game-launch' />
+        </main>
+        <div className='three wide column' />
       </div>
-      <div className='ten wide column'>
-        <div id='game-launch' />
-      </div>
-      <div className='three wide column' />
-    </div>
-  </div>
-);
+    </Fragment>
+  );
+};
 
 export default GamePage;

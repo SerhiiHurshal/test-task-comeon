@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Layout>
         <Component {...pageProps} />
       </Layout>
-      <Script src='/lib/comeon.game-1.0.min.js' />
+      <Script strategy='beforeInteractive' src='/lib/comeon.game-1.0.min.js' />
     </Fragment>
   );
 }

@@ -1,6 +1,7 @@
 import { Game } from '@models';
 import { FC } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const GameInfo: FC<Game> = ({ code, icon, description }) => (
   <section className='game item'>
@@ -13,10 +14,12 @@ const GameInfo: FC<Game> = ({ code, icon, description }) => (
       </header>
       <div className='description'>{description}</div>
       <div className='extra'>
-        <button className='play ui right floated secondary button inverted'>
-          Play
-          <i className='right chevron icon' />
-        </button>
+        <Link href={`/game/${code}`}>
+          <a className='play ui right floated secondary button inverted'>
+            Play
+            <i className='right chevron icon' />
+          </a>
+        </Link>
       </div>
     </aside>
   </section>
