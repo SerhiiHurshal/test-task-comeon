@@ -1,18 +1,37 @@
 /* eslint-disable react/jsx-max-depth */
-import { checkIsUserLoggedin, logoutUser } from '@services';
+import {
+  checkIsUserLoggedin,
+  getCategories,
+  getGames,
+  logoutUser,
+} from '@services';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
+import { Category, Game, Player } from '@models';
+import { PlayerInfo } from '@components/PlayerInfo';
+import { GameInfo } from '@components/GameInfo';
+import { CategoryInfo } from '@components/CategoryInfo';
 
-import gameIcon from '@public/images/game-icon/deadoralive.jpg';
-import { Player } from '@models';
-import { PlayerInfo } from '@components/Player';
+const ALL_GAMES_CATEGORY_ID = 0;
 
 const HomePage = () => {
   const router = useRouter();
 
   const [user, setUser] = useState<Player | null>(null);
+  const [games, setGames] = useState<Game[] | null>(null);
+  const [categories, setCategories] = useState<Category[] | null>(null);
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    ALL_GAMES_CATEGORY_ID,
+  );
+  const [searchInputValue, setSearchInputValue] = useState('');
+
+  const updateSearchInputValue = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInputValue(target.value);
+  };
 
   const logout = async () => {
     if (user?.name) {
@@ -20,6 +39,13 @@ const HomePage = () => {
       router.push('/login');
     }
   };
+
+  useEffect(() => {
+    Promise.all([
+      getGames().then((res) => setGames(res)),
+      getCategories().then((res) => setCategories(res)),
+    ]);
+  }, []);
 
   useEffect(() => {
     const user = checkIsUserLoggedin();
@@ -31,74 +57,72 @@ const HomePage = () => {
     }
   }, [router]);
 
-  if (!user) return null;
+  if (!user || !games || !categories) return null;
 
   return (
     <Fragment>
       <Head>
         <title>Comeon</title>
-        <meta name='description' content='Starter Pack' />
       </Head>
-      <div className='casino'>
-        <div className='grid ui centered'>
+      <Fragment>
+        <header className='grid ui centered'>
           <div className='twelve wide column'>
-            <PlayerInfo user={user} />
-            <div
+            <PlayerInfo {...user} />
+            <button
               className='logout ui left floated secondary button inverted'
               onClick={logout}
             >
               <i className='left chevron icon' />
               Log Out
-            </div>
+            </button>
           </div>
           <div className='four wide column'>
             <div className='search ui small icon input '>
-              <input type='text' placeholder='Search Game' />
+              <input
+                type='text'
+                placeholder='Search Game'
+                value={searchInputValue}
+                onChange={updateSearchInputValue}
+              />
               <i className='search icon' />
             </div>
           </div>
-        </div>
-        <div className='grid ui'>
-          <div className='twelve wide column'>
+        </header>
+        <main className='grid ui'>
+          <section className='twelve wide column'>
             <h3 className='ui dividing header'>Games</h3>
 
             <div className='ui relaxed divided game items links'>
-              {/* <!-- game item template --> */}
-              <div className='game item'>
-                <div className='ui small image'>
-                  <Image src={gameIcon} alt='game-icon' />
-                </div>
-                <div className='content'>
-                  <div className='header'>
-                    <b className='name' />
-                  </div>
-                  <div className='description' />
-                  <div className='extra'>
-                    <div className='play ui right floated secondary button inverted'>
-                      Play
-                      <i className='right chevron icon' />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* <!-- end game item template --> */}
+              {games
+                .filter(
+                  ({ categoryIds, code }) =>
+                    categoryIds.includes(selectedCategory) &&
+                    code.includes(searchInputValue),
+                )
+                .map((game) => (
+                  <Fragment key={game.code}>
+                    <GameInfo {...game} />
+                  </Fragment>
+                ))}
             </div>
-          </div>
-          <div className='four wide column'>
+          </section>
+          <aside className='four wide column'>
             <h3 className='ui dividing header'>Categories</h3>
 
             <div className='ui selection animated list category items'>
-              {/* <!-- category item template --> */}
-              <div className='category item'>
-                <div className='content'>
-                  <div className='header' />
-                </div>
-              </div>
-              {/* <!-- end category item template --> */}
+              {categories.map((category) => (
+                <Fragment key={category.id}>
+                  <CategoryInfo
+                    {...category}
+                    onClick={setSelectedCategory}
+                    selectedCategory={selectedCategory}
+                  />
+                </Fragment>
+              ))}
             </div>
-          </div>
-        </div>
-      </div>
+          </aside>
+        </main>
+      </Fragment>
     </Fragment>
   );
 };

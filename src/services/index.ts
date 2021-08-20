@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { LoginResponse, Player, UserCreds } from '@models';
+import { Category, Game, LoginResponse, Player, UserCreds } from '@models';
 
 const base = axios.create({
   baseURL: 'http://localhost:3001',
@@ -50,4 +50,23 @@ const logoutUser = async (username: string) => {
   await base.post('/logout', { username });
 };
 
-export { checkUserCreds, loginUser, checkIsUserLoggedin, logoutUser };
+const getGames = async () => {
+  const { data }: AxiosResponse<Game[]> = await base.get('/games');
+
+  return data;
+};
+
+const getCategories = async () => {
+  const { data }: AxiosResponse<Category[]> = await base.get('/categories');
+
+  return data;
+};
+
+export {
+  checkUserCreds,
+  loginUser,
+  checkIsUserLoggedin,
+  logoutUser,
+  getGames,
+  getCategories,
+};

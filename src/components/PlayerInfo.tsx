@@ -1,29 +1,26 @@
 import Image from 'next/image';
 import { Player } from '@models';
+import { FC } from 'react';
 
-type Props = {
-  user: Player;
-};
-
-const PlayerInfo = ({ user }: Props) => (
-  <div className='ui list'>
+const PlayerInfo: FC<Player> = ({ avatar, name, event }) => (
+  <section className='ui list'>
     <div className='flex items-center gap-x-3'>
       <Image
         className='ui avatar image'
-        src={`/${user?.avatar}`}
+        src={`/${avatar}`}
         alt='avatar'
         width={50}
         height={50}
       />
 
-      <div className='content'>
+      <aside className='content'>
         <div className='header'>
-          <b className='name'>{user.name}</b>
+          <b className='name'>{name}</b>
         </div>
-        <div className='description event'>{user.event}</div>
-      </div>
+        <div className='description event'>{event}</div>
+      </aside>
     </div>
-  </div>
+  </section>
 );
 
 export { PlayerInfo };
