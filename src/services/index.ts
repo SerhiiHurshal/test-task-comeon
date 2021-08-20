@@ -44,4 +44,10 @@ const checkIsUserLoggedin = () => {
   return null;
 };
 
-export { checkUserCreds, loginUser, checkIsUserLoggedin };
+const logoutUser = async (username: string) => {
+  localStorage.removeItem('user');
+
+  await base.post('/logout', { username });
+};
+
+export { checkUserCreds, loginUser, checkIsUserLoggedin, logoutUser };

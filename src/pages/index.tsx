@@ -1,23 +1,37 @@
 /* eslint-disable react/jsx-max-depth */
-import { checkIsUserLoggedin } from '@services';
+import { checkIsUserLoggedin, logoutUser } from '@services';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
-import avatar from '@public/images/avatar/eric.jpg';
 import gameIcon from '@public/images/game-icon/deadoralive.jpg';
+import { Player } from '@models';
+import { PlayerInfo } from '@components/Player';
 
 const HomePage = () => {
   const router = useRouter();
+
+  const [user, setUser] = useState<Player | null>(null);
+
+  const logout = async () => {
+    if (user?.name) {
+      await logoutUser(user?.name);
+      router.push('/login');
+    }
+  };
 
   useEffect(() => {
     const user = checkIsUserLoggedin();
 
     if (!user) {
       router.push('/login');
+    } else {
+      setUser(user);
     }
   }, [router]);
+
+  if (!user) return null;
 
   return (
     <Fragment>
@@ -28,21 +42,11 @@ const HomePage = () => {
       <div className='casino'>
         <div className='grid ui centered'>
           <div className='twelve wide column'>
-            <div className='ui list'>
-              {/* <!-- player item template --> */}
-              <div className='player item'>
-                <Image className='ui avatar image' src={avatar} alt='avatar' />
-
-                <div className='content'>
-                  <div className='header'>
-                    <b className='name' />
-                  </div>
-                  <div className='description event' />
-                </div>
-              </div>
-              {/* <!-- end player item template --> */}
-            </div>
-            <div className='logout ui left floated secondary button inverted'>
+            <PlayerInfo user={user} />
+            <div
+              className='logout ui left floated secondary button inverted'
+              onClick={logout}
+            >
               <i className='left chevron icon' />
               Log Out
             </div>
