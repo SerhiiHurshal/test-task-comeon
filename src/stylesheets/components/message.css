@@ -89,7 +89,7 @@
 }
 .ui.message ul.list li:before {
   position: absolute;
-  content: '•';
+  content: '';
   left: -1em;
   height: 100%;
   vertical-align: baseline;

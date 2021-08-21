@@ -1,37 +1,40 @@
 import { useRouter } from 'next/router';
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useUserAuth } from 'src/hooks/use-user-auth';
 
 const GamePage = () => {
+  const user = useUserAuth();
   const router = useRouter();
-
   const { name } = router.query;
 
   useEffect(() => {
-    window.comeon.game.launch(name);
+    if (user) {
+      window.comeon.game.launch(name as string);
+    }
   });
 
   const goBack = () => {
     router.back();
   };
 
+  if (!user) return null;
+
   return (
-    <Fragment>
-      <div className='grid ui centered'>
-        <header className='three wide column'>
-          <button
-            className='ui right floated secondary button inverted'
-            onClick={goBack}
-          >
-            <i className='left chevron icon' />
-            Back
-          </button>
-        </header>
-        <main className='ten wide column'>
-          <div id='game-launch' />
-        </main>
-        <div className='three wide column' />
-      </div>
-    </Fragment>
+    <section className='grid ui centered'>
+      <aside className='three wide column'>
+        <button
+          className='ui right floated secondary button inverted'
+          onClick={goBack}
+        >
+          <i className='left chevron icon' />
+          Back
+        </button>
+      </aside>
+      <main className='ten wide column'>
+        <div id='game-launch' />
+      </main>
+      <aside className='three wide column' />
+    </section>
   );
 };
 

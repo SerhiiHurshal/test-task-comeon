@@ -4,15 +4,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const GameInfo: FC<Game> = ({ code, icon, description }) => (
-  <section className='game item'>
-    <div className='ui small image'>
+  <li className='game item'>
+    <aside className='ui small image'>
       <Image src={`/${icon}`} alt='game-icon' width={140} height={140} />
-    </div>
-    <aside className='content'>
+    </aside>
+    <section className='content'>
       <header className='header'>
         <b className='name'>{code}</b>
       </header>
-      <div className='description'>{description}</div>
+      <p className='description'>{description}</p>
       <div className='extra'>
         <Link href={`/game/${code}`}>
           <a className='play ui right floated secondary button inverted'>
@@ -21,8 +21,8 @@ const GameInfo: FC<Game> = ({ code, icon, description }) => (
           </a>
         </Link>
       </div>
-    </aside>
-  </section>
+    </section>
+  </li>
 );
 
 export { GameInfo };

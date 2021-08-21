@@ -7,11 +7,12 @@ export interface Player {
   name: string;
   avatar: string;
   event: string;
+  id: string;
 }
 
 export interface LoginResponse {
   status: 'success' | 'fail';
-  player?: Player;
+  player?: Omit<Player, 'id'>;
   error?: string;
 }
 

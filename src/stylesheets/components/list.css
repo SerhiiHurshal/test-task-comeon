@@ -520,7 +520,7 @@ ul.ui.list li:before,
   top: auto;
   left: auto;
   margin-left: -1rem;
-  content: '•';
+  content: '';
   opacity: 1;
   color: rgba(0, 0, 0, 0.8);
   vertical-align: top;
