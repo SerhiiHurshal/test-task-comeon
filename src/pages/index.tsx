@@ -41,7 +41,7 @@ const HomePage: FC<Props> = ({ games, categories }) => {
   );
 };
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const games = await getGames();
   const categories = await getCategories();
 
