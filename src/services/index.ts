@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Category, Game, LoginResponse, Player, UserCreds } from '@models';
 
 const base = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: 'http://localhost:3000/api',
   validateStatus: function (status) {
     return status < 500;
   },
