@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Category, Game, LoginResponse, Player, UserCreds } from '@models';
 
 const base = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   validateStatus: function (status) {
     return status < 500;
   },
