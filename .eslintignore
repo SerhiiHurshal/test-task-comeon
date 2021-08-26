@@ -9,3 +9,4 @@ next.config.js
 public/lib
 src/stylesheets
 mock
+README.md
