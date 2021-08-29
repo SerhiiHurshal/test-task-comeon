@@ -2,7 +2,7 @@ import nc from 'next-connect';
 import type { NextApiResponse } from 'next';
 
 /**
- * Welocme api page
+ * Welocme page
  */
 const handler = nc().get((_, res: NextApiResponse) => {
   res.status(200).json({ text: 'Welcome!' });
